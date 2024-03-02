@@ -3,15 +3,22 @@
 * [CKAD](README.md)
 * [🪄 Certification Tips](certification-tips.md)
 
-## commands reference
+## Reference
 
-* [🗃️ Edit Pods](commands-reference/edit-pods.md)
-* [⚙️ Deployments](commands-reference/deployments.md)
-* [🌴 Namespaces](commands-reference/namespaces.md)
+* [🗃️ Edit Pods](reference/edit-pods.md)
+* [🚀 Deployments](reference/deployments.md)
+* [🌴 Namespaces](reference/namespaces.md)
+* [⚙️ Configurantion](reference/configurantion.md)
 
 ## Labs
 
-* [Lab #1](labs/lab-1.md)
-* [Lab #2](labs/lab-2.md)
-* [Lab #3](labs/lab-3.md)
-* [Lab #4](labs/lab-4.md)
+* [Configuration Labs](labs/configuration-labs.md)
+
+***
+
+* [Core Conceps Labs](core-conceps-labs/README.md)
+  * [Lab #1](core-conceps-labs/lab-1.md)
+  * [Lab #2](core-conceps-labs/lab-2.md)
+  * [Lab #3](core-conceps-labs/lab-3.md)
+  * [Lab #4](core-conceps-labs/lab-4.md)
+  * [Lab #5](core-conceps-labs/lab-5.md)

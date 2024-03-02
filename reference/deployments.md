@@ -1,4 +1,4 @@
-# ⚙️ Deployments
+# 🚀 Deployments
 
 It create the ReplicaSet and Pods
 
