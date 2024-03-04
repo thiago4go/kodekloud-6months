@@ -14,6 +14,8 @@
 
 * [Configuration Labs](labs/configuration-labs/README.md)
   * [Lab #1](labs/configuration-labs/lab-1.md)
+  * [Lab #2](labs/configuration-labs/lab-2.md)
+  * [Lab #3](labs/configuration-labs/lab-3.md)
 
 ***
 
