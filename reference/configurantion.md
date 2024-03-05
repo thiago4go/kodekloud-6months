@@ -14,11 +14,11 @@ Commands and Arguments in K8S
 
 <figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
-Enviroment Variable
+### Enviroment Variable
 
 <figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-ConfigMaps
+### ConfigMaps
 
 ```
 // literal
@@ -103,4 +103,24 @@ Also the way kubernetes handles secrets. Such as:
 
 Read about the [protections ](https://kubernetes.io/docs/concepts/configuration/secret/#protections)and [risks](https://kubernetes.io/docs/concepts/configuration/secret/#risks) of using secrets [here](https://kubernetes.io/docs/concepts/configuration/secret/#risks)
 
-Having said that, there are other better ways of handling sensitive data like passwords in Kubernetes, such as using tools like Helm Secrets, [HashiCorp Vault](https://www.vaultproject.io/). I hope to make a lecture on these in the future.
+Having said that, there are other better ways of handling sensitive data like passwords in Kubernetes, such as using tools like Helm Secrets, [HashiCorp Vault](https://www.vaultproject.io/).&#x20;
+
+
+
+### Security Contexts
+
+Docker runs using namespace as bounderies to set the context and user and its capabilities
+
+The `root user` within the container has some restricitions put in place by docker.
+
+A root user in the system is the user that can do many things
+
+{% hint style="info" %}
+Check all capabilities in usr/include/linux
+{% endhint %}
+
+Kubernetes Security
+
+**`securityContext` as part of spec.**
+
+It can be set in the Pod level or in a Container level, with `runAsUser`, this last can also add `capabilities: add: ["MAC_ADMIN"]`, but it is not possible to add capabilities in the Pod level.
