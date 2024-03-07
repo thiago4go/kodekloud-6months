@@ -125,6 +125,26 @@ Kubernetes Security
 
 It can be set in the Pod level or in a Container level, with `runAsUser`, this last can also add `capabilities: add: ["MAC_ADMIN"]`, but it is not possible to add capabilities in the Pod level.
 
+### Encrypting Secret Data at Rest
+
+use `etcdctl`
+
+{% hint style="info" %}
+:anger: use  `k get pods -n kube-system` to get pods on the control-plane :anger:&#x20;
+{% endhint %}
+
+{% hint style="info" %}
+to check if options is enable on kube-api
+
+ps -aux | grep kube-api | grep "option-name"
+{% endhint %}
+
+{% hint style="info" %}
+in a kubeadm setuo
+
+cat /etc/kubernetes/manifests/kube-apiserver.yaml
+{% endhint %}
+
 ### Resouce Requirements
 
 pod.spec.containers.resources.requests
@@ -144,4 +164,10 @@ pod.spec.containers.resources.requests
 {% endhint %}
 
 
+
+
+
+
+
+###
 
