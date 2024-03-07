@@ -2,6 +2,8 @@
 
 * [CKAD](README.md)
 * [🪄 Certification Tips](certification-tips.md)
+* [DaemonSet](daemonset.md)
+* [StatefulSet](statefulset.md)
 
 ## Reference
 
