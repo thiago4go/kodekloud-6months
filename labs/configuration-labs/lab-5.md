@@ -61,3 +61,38 @@ spec:
      command: ["sleep", "5000"]
 
 ```
+
+5/6 Update pod `ubuntu-sleeper` to run as Root user and with the `SYS_TIME` capability.
+
+Note: Only make the necessary changes. Do not modify the name of the pod.
+
+```
+// Some code
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-03-07T09:32:29Z"
+  name: ubuntu-sleeper
+  namespace: default
+  resourceVersion: "807"
+  uid: c337f247-4217-4850-82b8-6b69d2160dd3
+spec:
+  containers:
+  - command:
+    - sleep
+    - "4800"
+    image: ubuntu
+    imagePullPolicy: Always
+    name: ubuntu
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-69wp7
+      readOnly: true
+    securityContext: 
+      runAsUser: 0
+      capabilities:
+        add: ["SYS_TIME"]
+```

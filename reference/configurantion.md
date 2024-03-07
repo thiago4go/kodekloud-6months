@@ -124,3 +124,24 @@ Kubernetes Security
 **`securityContext` as part of spec.**
 
 It can be set in the Pod level or in a Container level, with `runAsUser`, this last can also add `capabilities: add: ["MAC_ADMIN"]`, but it is not possible to add capabilities in the Pod level.
+
+### Resouce Requirements
+
+pod.spec.containers.resources.requests
+
+{% hint style="info" %}
+1G = 10^9
+
+1M = 10^6
+
+1K = 10^3\
+\
+1Gi = 2^30
+
+1Mi = 2^20
+
+1Ki = 2^10
+{% endhint %}
+
+
+
