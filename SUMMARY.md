@@ -19,6 +19,7 @@
   * [Lab #2](labs/configuration-labs/lab-2.md)
   * [Lab #3](labs/configuration-labs/lab-3.md)
   * [Lab #5](labs/configuration-labs/lab-5.md)
+  * [Docker Lab](labs/configuration-labs/docker-lab.md)
 
 ***
 

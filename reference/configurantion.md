@@ -1,5 +1,7 @@
 # ⚙️ Configurantion
 
+Create a Docker Image
+
 Commands and Arguments in Docker
 
 `docker run <image>`
@@ -170,4 +172,57 @@ pod.spec.containers.resources.requests
 
 
 ###
+
+
+
+How to containarize a we applications
+
+1 OS - Ubuntu
+
+2 Update apt repo
+
+3 Install dependencies using `apt`
+
+4 install Python dependencies using `pip`
+
+5 Copy source code to /opt directory
+
+6 run the web server using `flask`
+
+{% code title="Dockerfile" %}
+```docker
+FROM Ubuntu
+
+RUN apt-get update
+RUN atp-get install python
+
+RUN pip install flask
+RUN pip install flask-mysql
+
+COPY . /opt/source-code
+
+ENTRYPOINT FLASK_APP=/otp/source-code/app.py frask run
+```
+{% endcode %}
+
+```
+// Some code
+docker build Dockerfile -t thiago4go/my-custom-app
+
+docker push thiago4go/my-custom-app
+```
+
+Layered Architecture
+
+`docker history <image-name>`
+
+All layer is cached
+
+## COMMANDS IN DOCKER
+
+
+
+
+
+
 
