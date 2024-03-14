@@ -13,7 +13,7 @@
 * [🌴 Namespaces](reference/namespaces.md)
 * [⚙️ Configurantion](reference/configurantion.md)
 * [🔀 Multi-Container Patterns](reference/multi-container-patterns.md)
-* [Observability](reference/observability.md)
+* [🔭 Observability](reference/observability.md)
 
 ## Labs
 
@@ -28,7 +28,8 @@
   * [Lab #8](labs/configuration-labs/lab-8.md)
   * [Lab #9](labs/configuration-labs/lab-9.md)
 * [InitContainer Labs](labs/initcontainer-labs.md)
-* [Observability Lab](labs/observability-lab.md)
+* [Observability Lab](labs/observability-lab/README.md)
+  * [Logging Labs](labs/observability-lab/logging-labs.md)
 
 ***
 
