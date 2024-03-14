@@ -106,3 +106,40 @@ livenessProbe:
   failureThreshold: 8 
 ```
 
+## Logging
+
+{% code title="event-simulator.yaml" %}
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: event-simulator-pod
+spec:
+  containers:
+  - name: event-simulator
+    image: kodekloud/event-simulator
+```
+{% endcode %}
+
+
+
+```
+k logs -f event-simulator-pod event-simulator
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
