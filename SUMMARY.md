@@ -30,6 +30,7 @@
 * [InitContainer Labs](labs/initcontainer-labs.md)
 * [Observability Lab](labs/observability-lab/README.md)
   * [Logging Labs](labs/observability-lab/logging-labs.md)
+  * [Monitoring Lab](labs/observability-lab/monitoring-lab.md)
 
 ***
 
