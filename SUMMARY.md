@@ -28,6 +28,7 @@
   * [Lab #8](labs/configuration-labs/lab-8.md)
   * [Lab #9](labs/configuration-labs/lab-9.md)
 * [InitContainer Labs](labs/initcontainer-labs.md)
+* [Observability Lab](labs/observability-lab.md)
 
 ***
 
