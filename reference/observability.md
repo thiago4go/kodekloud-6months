@@ -121,7 +121,7 @@ spec:
 ```
 {% endcode %}
 
-
+To check the log in a pod use this, also do not forget to use the container name if more tha one inside the pod
 
 ```
 k logs -f event-simulator-pod event-simulator
