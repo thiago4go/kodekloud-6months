@@ -129,11 +129,32 @@ k logs -f event-simulator-pod event-simulator
 
 
 
+## Monitoring
 
+What do you like monitor
 
+Monitor solution, no feature native for all
 
+### Heapster (deprecated) vs Metrics Server
 
+None of this save the logs or metrics on disk, it only lives in-memory\
+\
+Using Kubelet -> cAdvisor
 
+```
+git clone https://github.com/kubernetes-incubator/metrics--server.git
+```
+
+```
+k create -f deploy/1.8+/
+```
+
+It will deploy the cAdivisor
+
+```
+k top node
+k top pod
+```
 
 
 
