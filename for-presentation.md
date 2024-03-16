@@ -9,3 +9,8 @@ The CKAD exam focuses on using Kubernetes (K8s) from an application developer’
 
 
 
+
+
+You cannot“You can't go back and change the beginning but you can start where you are and change the ending.”
+
+― C.S. Lewis
