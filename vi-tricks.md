@@ -34,4 +34,13 @@ Instead of the slash character (`/`), you can use any other non-alphanumeric sin
 :s|foo|bar|
 ```
 
-\
+
+
+
+
+### Search
+
+```
+/<search-term>
+/<search-term>\c   #for case insensitive
+```

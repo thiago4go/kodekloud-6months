@@ -192,7 +192,7 @@ However, this is not the case with memory. A container can use more memory resou
 
 Default Behavior is no limit, no request.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Alwsys best to set request on CPU, but no need to set Limit</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>Alwsys best to set request on CPU, but no need to set Limit</p></figcaption></figure>
 
 ### Limit Range
 

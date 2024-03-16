@@ -122,160 +122,7 @@ spec:
 
 
 
-### Ingress
-
-Complex\
-
-
-<figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
-
-
-
-A kubernete cluster do not come with an Ingress Controler by default.
-
-#### Lets use Nginx Controler
-
-{% code overflow="wrap" %}
-```yaml
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: nginx-ingress-controler
-spec:
-  replicas: 1
-  seletor:
-    matchLabels:
-      name: nginx-ingress
-    template:
-      metadata:
-        labels:
-          name: nginx-ingress
-        spec:
-          containers:
-            - name: nginx-ingress-controller
-              image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
-          args:
-            - /nginx-ingress-controller 
-            - --configmap=$(POD_NAMESPACE)/nginx-configuration
-            
-          env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          ports:
-            - name: http
-              containerPort: 80
-            - name: https
-              containerPort: 443
-  
-```
-{% endcode %}
-
-{% hint style="info" %}
-need to create also a ConfigMap
-{% endhint %}
-
-```
-apiVersion: v1
-kind: Service
-metadata: 
-  nmae: nginx-ingress
-spec:
-  type: NodePPort
-  ports:
-  - port: 80
-    targetPort: 80
-    protocol: TCP
-    name: http
-  - port: 443
-    targetPort: 443
-    protocol: TCP
-    name: https
-  selector:
-    name: nginx-ingress
-```
-
-{% hint style="info" %}
-Also need to create a ServiceAccount to set permissions
-{% endhint %}
-
-#### ingress resources
-
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-wear
-spec:
-  backend:
-    serviceName: wear-service
-    servicePort: 80
-```
-
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-wear-watch
-spec:
-  rules:
-  - http:
-    paths:
-    - path: /wear
-      pathType: Prefix
-      backend:
-        service:
-          name: wear-service
-          port: 
-            number: 80
-    - path: /watch
-      pathType: Prefix
-      backend:
-        service:
-          name: watch-service
-          port: 
-            number: 80    
-```
-
-```
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-wear-watch
-spec:
-  rules:
-  - host: wear.my-online-store.com
-    http:
-      paths:
-      - backend:
-          serviceName: wear-service
-          servicePort: 80
-  - host: watch.my-online-store.com
-    http:
-      paths:
-      - backend: 
-          serviceName: watch-service
-          servicePort: 80    
-```
-
-{% code overflow="wrap" %}
-```
-kubectl create ingress <ingress-name> --rule="host/path=service:port"
-
-kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-service:80"
-```
-{% endcode %}
-
-
-
-
-
-ingress
+ingress&#x20;
 
 ```
 controlplane ~ ✦ ➜  cat ingress.yaml 
@@ -348,3 +195,225 @@ spec:
 
 controlplane ~ ✦ ➜  k -n critical-space replace --force -f pay-ingress.yaml 
 ```
+
+
+
+Sample of Ingress-controler:
+
+```
+controlplane ~ ➜  cat ingress-controller.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.1.2
+    helm.sh/chart: ingress-nginx-4.0.18
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  minReadySeconds: 0
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/instance: ingress-nginx
+      app.kubernetes.io/name: ingress-nginx
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/instance: ingress-nginx
+        app.kubernetes.io/name: ingress-nginx
+    spec:
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
+        - --election-id=ingress-controller-leader
+        - --watch-ingress-without-class=true
+        - --default-backend-service=app-space/default-http-backend
+        - --controller-class=k8s.io/ingress-nginx
+        - --ingress-class=nginx
+        - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: LD_PRELOAD
+          value: /usr/local/lib/libmimalloc.so
+        image: registry.k8s.io/ingress-nginx/controller:v1.1.2@sha256:28b11ce69e57843de44e3db6413e98d09de0f6688e33d4bd384002a44f78405c
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /wait-shutdown
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /healthz
+            port: 10254
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: controller
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        - containerPort: 443
+          name: https
+          protocol: TCP
+        - containerPort: 8443
+          name: webhook
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 10254
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        securityContext:
+          allowPrivilegeEscalation: true
+          capabilities:
+            add:
+            - NET_BIND_SERVICE
+            drop:
+            - ALL
+          runAsUser: 101
+        volumeMounts:
+        - mountPath: /usr/local/certificates/
+          name: webhook-cert
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: ingress-nginx
+      terminationGracePeriodSeconds: 300
+      volumes:
+      - name: webhook-cert
+        secret:
+          secretName: ingress-nginx-admission
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.1.2
+    helm.sh/chart: ingress-nginx-4.0.18
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30080
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  type: NodePort
+
+```
+
+
+
+7 / 8
+
+Create the ingress resource to make the applications available at `/wear` and `/watch` on the Ingress service. Also, make use of `rewrite-target` annotation field: -
+
+```
+nginx.ingress.kubernetes.io/rewrite-target: /
+```
+
+`Ingress` resource comes under the `namespace` scoped, so don't forget to create the ingress in the `app-space` namespace.
+
+```
+
+controlplane ~ ➜  kubectl create ingress nota-ingress --class=default --rule="/wear=wear-service:8080" --rule="/watch=video-service:8080" \                         
+  --annotation ingress.annotation1="nginx.ingress.kubernetes.io/rewrite-target: /"
+ingress.networking.k8s.io/nota-ingress created
+```
+
+```
+edit ingress
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  creationTimestamp: "2024-03-16T19:58:28Z"
+  generation: 2
+  name: nota-ingress
+  namespace: app-space
+  resourceVersion: "5557"
+  uid: c7427042-6662-4503-8b43-2d0e7f7d4768
+spec:
+  ingressClassName: default
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: wear-service
+            port:
+              number: 8080
+        path: /wear
+        pathType: Prefix
+      - backend:
+          service:
+            name: video-service
+            port:
+              number: 8080
+        path: /watch
+        pathType: Prefix
+status:
+  loadBalancer: {}
+```
+
+
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```
+k get deploy -n ingress-space
+
+k expose deploy ingress-controller -n ingress-space --name=ingress --port=80 --target-port=80 --type=NodePort 
+k edit svc ingress -n ingress-space
+```
+{% endcode %}

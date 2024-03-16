@@ -144,5 +144,251 @@ spec:
       port: 3306
 ```
 
+## Ingress
+
+Complex setup\
+
+
+<figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+
+
+
+A kubernete cluster do not come with an Ingress Controler by default.
+
+#### Lets use Nginx Controler
+
+{% code overflow="wrap" %}
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-ingress-controler
+spec:
+  replicas: 1
+  seletor:
+    matchLabels:
+      name: nginx-ingress
+    template:
+      metadata:
+        labels:
+          name: nginx-ingress
+        spec:
+          containers:
+            - name: nginx-ingress-controller
+              image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
+          args:
+            - /nginx-ingress-controller 
+            - --configmap=$(POD_NAMESPACE)/nginx-configuration
+            
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+  
+```
+{% endcode %}
+
+{% hint style="info" %}
+need to create also a ConfigMap
+{% endhint %}
+
+```
+apiVersion: v1
+kind: Service
+metadata: 
+  nmae: nginx-ingress
+spec:
+  type: NodePPort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    name: nginx-ingress
+```
+
+{% hint style="info" %}
+Also need to create a ServiceAccount to set permissions
+{% endhint %}
+
+#### ingress resources
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wear
+spec:
+  backend:
+    serviceName: wear-service
+    servicePort: 80
+```
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  rules:
+  - http:
+    paths:
+    - path: /wear
+      pathType: Prefix
+      backend:
+        service:
+          name: wear-service
+          port: 
+            number: 80
+    - path: /watch
+      pathType: Prefix
+      backend:
+        service:
+          name: watch-service
+          port: 
+            number: 80    
+```
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  rules:
+  - host: wear.my-online-store.com
+    http:
+      paths:
+      - backend:
+          serviceName: wear-service
+          servicePort: 80
+  - host: watch.my-online-store.com
+    http:
+      paths:
+      - backend: 
+          serviceName: watch-service
+          servicePort: 80    
+```
+
+{% code overflow="wrap" %}
+```
+kubectl create ingress <ingress-name> --rule="host/path=service:port"
+
+kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-service:80"
+```
+{% endcode %}
+
+{% hint style="info" %}
+Ingress resource -> annotations rewrite after path /something to what is set
+
+```yaml
+annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+```
+{% endhint %}
+
+
+
+### FAQ – What is the rewrite-target option?
+
+Different ingress controllers have different options that can be used to customise the way it works. NGINX Ingress controller has many options that can be seen [here](https://kubernetes.github.io/ingress-nginx/examples/). I would like to explain one such option that we will use in our labs. The [Rewrite](https://kubernetes.github.io/ingress-nginx/examples/rewrite/) target option.
+
+&#x20;
+
+Our `watch` app displays the video streaming webpage at `http://<watch-service>:<port>/`
+
+Our `wear` app displays the apparel webpage at `http://<wear-service>:<port>/`
+
+We must configure Ingress to achieve the below. When user visits the URL on the left, his request should be forwarded internally to the URL on the right. Note that the /watch and /wear URL path are what we configure on the ingress controller so we can forwarded users to the appropriate application in the backend. The applications don’t have this URL/Path configured on them:
+
+&#x20;
+
+`http://<ingress-service>:<ingress-port>/watch` –> `http://<watch-service>:<port>/`
+
+`http://<ingress-service>:<ingress-port>/wear` –> `http://<wear-service>:<port>/`
+
+&#x20;
+
+Without the `rewrite-target` option, this is what would happen:
+
+`http://<ingress-service>:<ingress-port>/watch` –> `http://<watch-service>:<port>/watch`
+
+`http://<ingress-service>:<ingress-port>/wear` –> `http://<wear-service>:<port>/wear`
+
+&#x20;
+
+Notice `watch` and `wear` at the end of the target URLs. The target applications are not configured with `/watch` or `/wear` paths. They are different applications built specifically for their purpose, so they don’t expect `/watch` or `/wear` in the URLs. And as such the requests would fail and throw a `404` not found error.
+
+&#x20;
+
+To fix that we want to “ReWrite” the URL when the request is passed on to the watch or wear applications. We don’t want to pass in the same path that user typed in. So we specify the `rewrite-target` option. This rewrites the URL by replacing whatever is under `rules->http->paths->path` which happens to be `/pay` in this case with the value in `rewrite-target`. This works just like a search and replace function.
+
+For example: `replace(path, rewrite-target)`
+
+In our case: `replace("/path","/")`
+
+&#x20;
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: critical-space
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /pay
+        backend:
+          serviceName: pay-service
+          servicePort: 8282
+```
+
+&#x20;
+
+In another example given [here](https://kubernetes.github.io/ingress-nginx/examples/rewrite/), this could also be:
+
+`replace("/something(/|$)(.*)", "/$2")`
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: rewrite
+  namespace: default
+spec:
+  rules:
+  - host: rewrite.bar.com
+    http:
+      paths:
+      - backend:
+          serviceName: http-svc
+          servicePort: 80
+        path: /something(/|$)(.*)
+```
+
+&#x20;
+
 
 
