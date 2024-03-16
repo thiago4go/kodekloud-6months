@@ -15,6 +15,7 @@
 * [🔀 Multi-Container Patterns](reference/multi-container-patterns.md)
 * [🔭 Observability](reference/observability.md)
 * [🔹 POD Design](reference/pod-design.md)
+* [📶 Service & Networking](reference/service-and-networking.md)
 
 ## Labs
 
@@ -39,6 +40,7 @@
   * [Logging Labs](labs/observability-lab/logging-labs.md)
   * [Monitoring Lab](labs/observability-lab/monitoring-lab.md)
 * [Pod Desing Labs](labs/pod-desing-labs.md)
+* [Services Lab](labs/services-lab.md)
 
 ***
 
