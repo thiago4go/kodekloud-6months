@@ -20,7 +20,7 @@ Commands and Arguments in K8S
 
 Enviroment Variable
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## ConfigMaps
 
@@ -192,7 +192,7 @@ However, this is not the case with memory. A container can use more memory resou
 
 Default Behavior is no limit, no request.
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>Alwsys best to set request on CPU, but no need to set Limit</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Alwsys best to set request on CPU, but no need to set Limit</p></figcaption></figure>
 
 ### Limit Range
 
@@ -333,7 +333,7 @@ k taint nodes <node-name> key=value:taint-effect
 | PreferNoSchedule | May not schedule                               |
 | NoExecute        | Do not execute a pod, even if it already exist |
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 ```
 apiVersion: v1

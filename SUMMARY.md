@@ -16,6 +16,10 @@
 * [🔭 Observability](reference/observability.md)
 * [🔹 POD Design](reference/pod-design.md)
 * [📶 Service & Networking](reference/service-and-networking.md)
+* [💾 State Persistence](reference/state-persistence/README.md)
+  * [Optional Content](reference/state-persistence/optional-content/README.md)
+    * [Storate Classes](reference/state-persistence/optional-content/storate-classes.md)
+* [👮 Security](reference/security.md)
 
 ## Labs
 
@@ -41,6 +45,7 @@
   * [Monitoring Lab](labs/observability-lab/monitoring-lab.md)
 * [Pod Desing Labs](labs/pod-desing-labs.md)
 * [Services Lab](labs/services-lab.md)
+* [Volumes Lab](labs/volumes-lab.md)
 
 ***
 
