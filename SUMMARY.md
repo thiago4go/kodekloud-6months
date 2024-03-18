@@ -46,6 +46,7 @@
 * [Pod Desing Labs](labs/pod-desing-labs.md)
 * [Services Lab](labs/services-lab.md)
 * [Volumes Lab](labs/volumes-lab.md)
+* [Security Labs](labs/security-labs.md)
 
 ***
 

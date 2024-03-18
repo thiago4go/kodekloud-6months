@@ -136,7 +136,7 @@ Similar to CronJob in Linux, it mean that we can schedule a job to run arbitraly
 
 
 
-<figure><img src="../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (10) (1).png" alt=""><figcaption></figcaption></figure>
 
 Take extra
 

@@ -20,7 +20,7 @@ We are going to deploy an application with the below architecture
 
 We have already deployed the required pods and services. Check out the pods and services created. Check out the web application using the `Webapp MySQL` link above your terminal, next to the Quiz Portal Link.
 
-<figure><img src="../../.gitbook/assets/image (7) (1).png" alt=""><figcaption><p>app with secret architecture</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption><p>app with secret architecture</p></figcaption></figure>
 
 6/8 Create a new secret named `db-secret` with the data given below.
 

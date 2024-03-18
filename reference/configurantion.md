@@ -16,11 +16,11 @@ ENTRYPOINT is how the application starts
 
 Commands and Arguments in K8S
 
-<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Enviroment Variable
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## ConfigMaps
 
@@ -51,9 +51,9 @@ k apply -f config-map.yaml
 
 Inject ConfiMap Env Variable in a pod via `envFrom`
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Create Secrets
 
@@ -82,17 +82,17 @@ them use `--from-file`
 kubectl create secret generic <secret-name> --from-file=secret.properties
 ```
 
-<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>Encode Scretes</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1).png" alt=""><figcaption><p>Encode Scretes</p></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (1) (2).png" alt=""><figcaption><p>Decode Secrets</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Secrets is not Encrypted! > use Encrypt at rest
 {% endhint %}
 
-<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Secrets are not encrypted, so it is not safer in that sense. However, some best practices around using secrets make it safer. As in best practices like:
 
@@ -192,7 +192,7 @@ However, this is not the case with memory. A container can use more memory resou
 
 Default Behavior is no limit, no request.
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Alwsys best to set request on CPU, but no need to set Limit</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>Alwsys best to set request on CPU, but no need to set Limit</p></figcaption></figure>
 
 ### Limit Range
 
@@ -333,7 +333,7 @@ k taint nodes <node-name> key=value:taint-effect
 | PreferNoSchedule | May not schedule                               |
 | NoExecute        | Do not execute a pod, even if it already exist |
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ```
 apiVersion: v1
@@ -372,9 +372,9 @@ This have some limitions, like no attributes like NOT or AND
 
 pod.spec.affinity.nodeAffinity.requireDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms.matchExpressions
 
-<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
 

@@ -41,7 +41,7 @@ Existing Container Name: app
 
 Existing Container Image: kodekloud/event-simulator
 
-<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1).png" alt=""><figcaption></figcaption></figure>
 
 ```
 apiVersion: v1
