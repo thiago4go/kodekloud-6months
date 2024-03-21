@@ -105,3 +105,18 @@ speed:
 
 
 {% endhint %}
+
+
+
+## Time Management
+
+Attempet: All question
+
+Dont get stuck in any question, troubleshoot on the end
+
+
+
+
+
+
+

@@ -20,6 +20,7 @@
   * [Optional Content](reference/state-persistence/optional-content/README.md)
     * [Storate Classes](reference/state-persistence/optional-content/storate-classes.md)
 * [👮 Security](reference/security.md)
+* [⚗️ Helm](reference/helm.md)
 
 ## Labs
 

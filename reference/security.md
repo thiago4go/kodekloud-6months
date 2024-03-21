@@ -26,7 +26,7 @@ it is a file tha can store kubernetes configuration, usually located in `$HOME/.
 
 This file have the following format:
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 `current-context` can be set as well
 
@@ -78,7 +78,7 @@ We always use API to connect to Kubernetes#
 {% endtab %}
 {% endtabs %}
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 Use kubectl proxy to access the API endpoint without need to pass credentials parameters everytime
 
@@ -118,7 +118,7 @@ Set permissons for user and group, it need to be set manually and restart the KU
 
 ### RBAC (Role-based access control)
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Role object\
 
@@ -167,18 +167,6 @@ As an User you can check access using:\
 kubectl auth can-i <command> <resource> --as <user> --ns <namespace>
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
 ### Webhook
 
 It is a thirdy part access control
@@ -191,11 +179,115 @@ it follow the order specify in this line, also have the `AlwaysAllow` and `Alway
 
 <div align="left">
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 </div>
 
+### Cluster Roles
 
+Cluster Roles are made to control everything not under `namespaces`
+
+```
+k  api-resources --namespaced=false
+```
+
+To authorize in a cluster we can create `ClusterRole` and `ClusterRoleBinding`
+
+It also can be used to give wider access to spacenamed resources on the cluster
+
+
+
+## Admission Controllers
+
+View Enabled Admission Controllers
+
+{% code overflow="wrap" %}
+```
+kubect exec kube-apiserver-controlplane -n kube-system -- kube-apiserver -h | grep enable-admission-lugins
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+{% hint style="info" %}
+Note that the `NamespaceExists` and `NamespaceAutoProvision` admission controllers are deprecated and now replaced by `NamespaceLifecycle` admission controller.
+
+The `NamespaceLifecycle` admission controller will make sure that requests\
+to a non-existent namespace is rejected and that the default namespaces such as\
+`default`, `kube-system` and `kube-public` cannot be deleted.
+{% endhint %}
+
+### Validating and Mutating Admission Controllers
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+It is possible to also create a Admission Webhook Service for admission controler that will mutante or/and validade the request.
+
+To deploy as pod inside the kubernete cluster and then create a `service`&#x20;
+
+```
+apiVersion: admissionregistration.k8s.io/v1
+kind: mutatingwebhookconfigurations
+metadata:
+  name: "pod-policy.example.com"
+webhooks:
+
+```
+
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+
+
+## API Versions
+
+* v1 - means GA version
+* vXbetaY - may become GA in the future
+
+You can set the version you want to use as PreferredVersion and also the Storage version
+
+Also alpha version is not enable as default
+
+
+
+### API Deprecations
+
+rule #1: API elements may only be removed by incrementng the version of the API group
+
+rule #2: API objects must be able to round-trip between API versions in a given release without information loss, with the exception of whole REST resources that do not exist in some versions.
+
+rule #3:  About support older versions:
+
+* GA: 12 months or 3 releases (whichever is longer)
+* Beta: 9 months or 3 releases(whichever is longer)
+* Alpha: 0 releases
+
+Releases notes must indicate how to update
+
+
+
+### Kubectl Convert
+
+This help to convert between versions of the API
+
+This command is not avaible as default, it needed to be installed
+
+
+
+## Custom Resource Definition
+
+apiextensions.k8s.io/v1
+
+CustomResourceDefinition
+
+#### Custom Controllers
+
+Build it using Go or other laguage, based on the Sample-Controller, them contenarize it and run as a pod.
+
+
+
+#### Operator Framework
+
+This can joint CRD and CController and also much more!
 
 
 
