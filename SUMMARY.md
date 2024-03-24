@@ -22,6 +22,10 @@
 * [👮 Security](reference/security.md)
 * [⚗️ Helm](reference/helm.md)
 
+***
+
+* [Mock Exams Lab](mock-exams-lab.md)
+
 ## Labs
 
 * [Core Conceps Labs](labs/core-conceps-labs/README.md)
